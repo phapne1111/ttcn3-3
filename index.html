@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nguyễn Văn Pháp</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <video autoplay muted loop playsinline id="bgVideo">
+    <source src="background.mp4" type="video/mp4">
+  </video>
+
+  <div id="fps" class="fps-counter">FPS: 0</div>
+  <div class="snow"></div>
+
+  <div class="container">
+    <div class="avatar-frame">
+      <img src="avatar.jpg" alt="avatar" class="avatar">
+      <img src="frame.png" alt="border" class="avatar-border">
+    </div>   
+
+    <h1>Nguyễn Văn Pháp<span class="verified">🥰</span></h1>
+
+    <div class="social-icons">
+      <a href="mailto:phapne1111@gmail.com" target="_blank"><i class="fas fa-envelope"></i></a>
+      <a href="https://t.me/vanphap_99" target="_blank"><i class="fab fa-telegram"></i></a>
+      <a href="https://www.facebook.com/phap24.12" target="_blank"><i class="fab fa-facebook"></i></a>
+      <a href="https://www.tiktok.com/@notur_mye" target="_blank"><i class="fab fa-tiktok"></i></a>
+      <a href="https://www.instagram.com/_zhyu.phaq" target="_blank"><i class="fab fa-instagram"></i></a>
+
+    <div class="info">
+      THIẾT KẾ WEBSITE THEO YÊU CẦU<br>
+      ZALO: 093.587.7467
+    </div>
+
+    <div class="timer">
+      Date created: <span id="timer"></span>
+    </div>
+
+    <div class="music-btn">
+      <select onchange="changeSong(this.value)">
+        <option value="">Play Music</option>
+        <option value="./music/music1.mp3">Để Anh Lương Thiện Remix</option>
+        <option value="./music/music2.mp3">Em Cưới Rồi À Remix</option>
+        <option value="./music/music3.mp3">The History of The Future</option>
+        <option value="./music/music4.mp3">Tháp Rơi Tự Do</option>
+        <option value="./music/music5.mp3">Six UVA V2</option>
+      </select>
+      <audio id="bgMusic" autoplay loop hidden></audio>
+    </div>
+  </div>
+
+  <script>
+    let currentSong = "";
+
+    function updateTimer() {
+      const createdAt = new Date("2025-05-20T00:00:00");
+      const now = new Date();
+      const diff = Math.floor((now - createdAt) / 1000);
+      const days = Math.floor(diff / (3600 * 24));
+      const hours = Math.floor((diff % (3600 * 24)) / 3600);
+      const minutes = Math.floor((diff % 3600) / 60);
+      const seconds = diff % 60;
+      document.getElementById("timer").innerText = `${days} day ${hours} hour ${minutes} minute ${seconds} second`;
+    }
+
+    function changeSong(url) {
+      const audio = document.getElementById("bgMusic");
+      if (url !== currentSong) {
+        currentSong = url;
+        audio.src = url;
+        audio.play();
+      }
+    }
+
+    function createSnowflakes() {
+      const snow = document.querySelector('.snow');
+      for (let i = 0; i < 100; i++) {
+        const snowflake = document.createElement('div');
+        snowflake.classList.add('snowflake');
+        snowflake.innerHTML = '.';
+        snowflake.style.left = Math.random() * 100 + 'vw';
+        snowflake.style.animationDuration = (2 + Math.random() * 3) + 's';
+        snowflake.style.opacity = Math.random();
+        snowflake.style.fontSize = (8 + Math.random() * 10) + 'px';
+        snow.appendChild(snowflake);
+      }
+    }
+
+    let lastFrame = performance.now();
+    let frameCount = 0;
+
+    function updateFPS() {
+      const now = performance.now();
+      frameCount++;
+      if (now - lastFrame >= 1000) {
+        document.getElementById("fps").innerText = "FPS: " + frameCount;
+        frameCount = 0;
+        lastFrame = now;
+      }
+      requestAnimationFrame(updateFPS);
+    }
+
+    setInterval(updateTimer, 1000);
+    window.onload = () => {
+      updateTimer();
+      createSnowflakes();
+      updateFPS();
+    };
+  </script>
+</body>
+</html>
